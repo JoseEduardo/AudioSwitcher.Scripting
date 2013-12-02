@@ -43,6 +43,7 @@
     <Compile Include="Libraries\AudioSwitcherLibrary.cs" />
     <Compile Include="Libraries\AudioSwitcherLibrary.Functions.cs" />
     <Compile Include="Libraries\CoreLibrary.cs" />
+    <Compile Include="Libraries\CoreLibrary.Functions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScriptEngineExtensions.cs" />
   </ItemGroup>

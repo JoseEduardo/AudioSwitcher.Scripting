@@ -9,7 +9,7 @@ using Jurassic.Library;
 
 namespace AudioSwitcher.Scripting.Libraries
 {
-    public sealed class CoreLibrary : ObjectInstance, IJavaScriptLibrary
+    public sealed partial class CoreLibrary : ObjectInstance, IJavaScriptLibrary
     {
         public CoreLibrary(ScriptEngine engine)
             : base(engine)
@@ -44,12 +44,6 @@ namespace AudioSwitcher.Scripting.Libraries
         {
             if (engine.GetGlobalValue(Name) != Undefined.Value)
                 engine.Global.Delete(Name, false);
-        }
-
-        [JSFunction(Name = "sleep")]
-        public void Sleep(int s)
-        {
-            Thread.Sleep(s);
         }
 
     }

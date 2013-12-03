@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using AudioSwitcher.AudioApi;
+﻿using AudioSwitcher.AudioApi;
 using AudioSwitcher.Scripting.Libraries;
 using Jurassic;
 
@@ -10,19 +6,18 @@ namespace AudioSwitcher.Scripting
 {
     public static class ScriptEngineExtensions
     {
-
         public static AudioSwitcherLibrary AddAudioSwitcherLibrary(this ScriptEngine engine, AudioContext context)
         {
-            return AddLibrary<AudioSwitcherLibrary>(engine, new AudioSwitcherLibrary(engine, context));
+            return AddLibrary(engine, new AudioSwitcherLibrary(engine, context));
         }
 
         public static CoreLibrary AddCoreLibrary(this ScriptEngine engine)
         {
-            return AddLibrary<CoreLibrary>(engine, new CoreLibrary(engine));
+            return AddLibrary(engine, new CoreLibrary(engine));
         }
 
         /// <summary>
-        /// Add the library to the current lua context
+        ///     Add the library to the current lua context
         /// </summary>
         /// <param name="engine"></param>
         /// <param name="library"></param>
@@ -34,7 +29,7 @@ namespace AudioSwitcher.Scripting
         }
 
         /// <summary>
-        /// Add the library to the current lua context
+        ///     Add the library to the current lua context
         /// </summary>
         /// <param name="engine"></param>
         /// <param name="library"></param>
@@ -46,7 +41,7 @@ namespace AudioSwitcher.Scripting
         }
 
         /// <summary>
-        /// Removes the library import from the current lua context
+        ///     Removes the library import from the current lua context
         /// </summary>
         /// <param name="engine"></param>
         /// <param name="library"></param>
@@ -56,6 +51,5 @@ namespace AudioSwitcher.Scripting
             library.Remove(engine);
             return true;
         }
-
     }
 }

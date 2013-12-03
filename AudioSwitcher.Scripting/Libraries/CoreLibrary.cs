@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using AudioSwitcher.AudioApi;
-using Jurassic;
+﻿using Jurassic;
 using Jurassic.Library;
 
 namespace AudioSwitcher.Scripting.Libraries
@@ -14,24 +8,18 @@ namespace AudioSwitcher.Scripting.Libraries
         public CoreLibrary(ScriptEngine engine)
             : base(engine)
         {
-            this.PopulateFields();
-            this.PopulateFunctions();
+            PopulateFields();
+            PopulateFunctions();
         }
 
         public string Name
         {
-            get
-            {
-                return "Core";
-            }
+            get { return "Core"; }
         }
 
         public int Version
         {
-            get
-            {
-                return 1;
-            }
+            get { return 1; }
         }
 
         public void Add(ScriptEngine engine)
@@ -45,6 +33,5 @@ namespace AudioSwitcher.Scripting.Libraries
             if (engine.GetGlobalValue(Name) != Undefined.Value)
                 engine.Global.Delete(Name, false);
         }
-
     }
 }

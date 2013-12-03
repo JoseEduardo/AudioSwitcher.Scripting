@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Jurassic;
+﻿using Jurassic;
 using Xunit;
 
 namespace AudioSwitcher.Scripting.Tests

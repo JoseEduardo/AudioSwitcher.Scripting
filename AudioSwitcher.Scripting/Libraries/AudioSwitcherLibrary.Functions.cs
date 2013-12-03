@@ -38,5 +38,24 @@ namespace AudioSwitcher.Scripting.Libraries
             return this.Engine.Array.New(devices.Select(x => new JavaScriptAudioDevice(this.Engine, this.Context, x)).ToArray<object>());
         }
 
+        /// <summary>
+        /// Macro function used to list all the devices
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        [JSFunction(Name = "getAudioDevice")]
+        public JavaScriptAudioDevice GetAudioDevice(string name)
+        {
+
+            AudioDevice dev = this.Context.Controller.GetPlaybackDevices()
+                .Concat(this.Context.Controller.GetRecordingDevices())
+                .FirstOrDefault(x => x.ShortName == name);
+
+            return dev != null ? new JavaScriptAudioDevice(this.Engine, this.Context, dev) : null;
+
+            //Love LINQ <3
+            //return this.Engine.Array.New(devices.Select(x => new JavaScriptAudioDevice(this.Engine, this.Context, x)).ToArray<object>());
+        }
+
     }
 }

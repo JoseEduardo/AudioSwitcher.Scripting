@@ -33,8 +33,8 @@ namespace AudioSwitcher.Scripting.Libraries
             : base(engine)
         {
             Context = context;
-            this.PopulateFields();
-            this.PopulateFunctions();
+            PopulateFields();
+            PopulateFunctions();
         }
 
         public void Add(ScriptEngine engine)

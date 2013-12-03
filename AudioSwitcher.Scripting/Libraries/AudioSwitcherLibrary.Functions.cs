@@ -16,7 +16,7 @@ namespace AudioSwitcher.Scripting.Libraries
         [JSFunction(Name = "getAudioDevices")]
         public ArrayInstance GetAudioDevices(int dFlags)
         {
-            int flags = (int)dFlags;
+            var flags = dFlags;
             var devices = new List<AudioDevice>();
             switch (flags)
             {
@@ -33,7 +33,7 @@ namespace AudioSwitcher.Scripting.Libraries
             }
 
             //Love LINQ <3
-            return this.Engine.Array.New(devices.Select(x => new JavaScriptAudioDevice(this.Engine, this.Context, x)).ToArray<object>());
+            return Engine.Array.New(devices.Select(x => new JavaScriptAudioDevice(Engine, Context, x)).ToArray<object>());
         }
 
         /// <summary>
@@ -45,11 +45,11 @@ namespace AudioSwitcher.Scripting.Libraries
         public JavaScriptAudioDevice GetAudioDevice(string name)
         {
 
-            AudioDevice dev = this.Context.Controller.GetPlaybackDevices()
-                .Concat(this.Context.Controller.GetRecordingDevices())
+            AudioDevice dev = Context.Controller.GetPlaybackDevices()
+                .Concat(Context.Controller.GetRecordingDevices())
                 .FirstOrDefault(x => x.ShortName == name);
 
-            return dev != null ? new JavaScriptAudioDevice(this.Engine, this.Context, dev) : null;
+            return dev != null ? new JavaScriptAudioDevice(Engine, Context, dev) : null;
 
             //Love LINQ <3
             //return this.Engine.Array.New(devices.Select(x => new JavaScriptAudioDevice(this.Engine, this.Context, x)).ToArray<object>());

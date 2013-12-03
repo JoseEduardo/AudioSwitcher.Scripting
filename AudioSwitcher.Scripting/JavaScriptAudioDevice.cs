@@ -8,47 +8,14 @@ namespace AudioSwitcher.Scripting
 {
     public sealed partial class JavaScriptAudioDevice : ObjectInstance
     {
-        private string _id;
         [JSProperty(Name = "id")]
-        public string ID
-        {
-            get
-            {
-                return _id;
-            }
-            internal set
-            {
-                _id = value;
-            }
-        }
+        public string ID { get; internal set; }
 
-        private string _name;
         [JSProperty(Name = "name")]
-        public string Name
-        {
-            get
-            {
-                return _name;
-            }
-            internal set
-            {
-                _name = value;
-            }
-        }
+        public string Name { get; internal set; }
 
-        private int _flags;
         [JSProperty(Name = "flags")]
-        public int Flags
-        {
-            get
-            {
-                return _flags;
-            }
-            internal set
-            {
-                _flags = value;
-            }
-        }
+        public int Flags { get; internal set; }
 
         AudioContext Context
         {
@@ -63,7 +30,7 @@ namespace AudioSwitcher.Scripting
             {
                 //Ensures that the Controller is always referencing the correct device
                 //instance
-                return Context.Controller.GetAudioDevice(new Guid(this.ID));
+                return Context.Controller.GetAudioDevice(new Guid(ID));
             }
         }
 
@@ -75,8 +42,8 @@ namespace AudioSwitcher.Scripting
             Name = device.ShortName;
             Flags = device.IsPlaybackDevice ? 1 : 2;
 
-            this.PopulateFields();
-            this.PopulateFunctions();
+            PopulateFields();
+            PopulateFunctions();
         }
     }
 }

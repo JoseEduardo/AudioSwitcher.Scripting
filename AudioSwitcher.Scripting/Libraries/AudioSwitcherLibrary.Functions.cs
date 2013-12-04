@@ -100,7 +100,7 @@ namespace AudioSwitcher.Scripting.Libraries
         /// <summary>
         /// </summary>
         /// <returns></returns>
-        [JSFunction(Name = "previousPreferredPlaybackDevice")]
+        [JSFunction(Name = "previousPreferredRecordingDevice")]
         public ObjectInstance PreviousPreferredRecordingDevice()
         {
             return Context.PreferredDeviceManager != null

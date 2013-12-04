@@ -1,6 +1,11 @@
-﻿using AudioSwitcher.AudioApi;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.InteropServices.ComTypes;
+using AudioSwitcher.AudioApi;
 using AudioSwitcher.Scripting.Libraries;
 using Jurassic;
+using Jurassic.Library;
 
 namespace AudioSwitcher.Scripting
 {
@@ -50,6 +55,11 @@ namespace AudioSwitcher.Scripting
         {
             library.Remove(engine);
             return true;
+        }
+
+        public static ArrayInstance EnumerableToArray(this ScriptEngine engine, IEnumerable<object> collection)
+        {
+            return engine.Array.New(collection.ToArray());
         }
     }
 }

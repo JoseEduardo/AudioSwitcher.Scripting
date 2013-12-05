@@ -10,12 +10,11 @@ namespace AudioSwitcher.Scripting.Libraries
         /// <summary>
         ///     Macro function used to list all the devices
         /// </summary>
-        /// <param name="dFlags">0 Both, 1 = Playback, 2 = Recording</param>
+        /// <param name="flags">0 Both, 1 = Playback, 2 = Recording</param>
         /// <returns></returns>
         [JSFunction(Name = "getAudioDevices")]
-        public ArrayInstance GetAudioDevices(int dFlags)
+        public ArrayInstance GetAudioDevices(int flags)
         {
-            int flags = dFlags;
             var devices = new List<AudioDevice>();
             switch (flags)
             {
@@ -53,59 +52,72 @@ namespace AudioSwitcher.Scripting.Libraries
         /// <summary>
         ///     Gets all preferred devices
         /// </summary>
+        /// <param name="flags">0 Both, 1 = Playback, 2 = Recording</param>
         /// <returns></returns>
         [JSFunction(Name = "getPreferredDevices")]
-        public ArrayInstance GetPreferredDevices()
+        public ArrayInstance GetPreferredDevices(int flags)
         {
-            return
-                Engine.EnumerableToArray(
-                    Context.PreferredDeviceManager.PreferredDevices.Select(
-                        x => new JavaScriptAudioDevice(Engine, Context, x)).ToArray<object>());
+            var devices = new List<AudioDevice>();
+            switch (flags)
+            {
+                case 0:
+                    devices.AddRange(Context.PreferredDeviceManager.PreferredDevices);
+                    break;
+                case 1:
+                    devices.AddRange(Context.PreferredDeviceManager.PreferredDevices.Where(x => x.IsPlaybackDevice));
+                    break;
+                case 2:
+                    devices.AddRange(Context.PreferredDeviceManager.PreferredDevices.Where(x => x.IsRecordingDevice));
+                    break;
+            }
+
+            return Engine.EnumerableToArray(devices);
         }
 
         /// <summary>
         ///     Gets the next 
         /// </summary>
+        /// <param name="flags">1 = Playback, 2 = Recording</param>
         /// <returns></returns>
-        [JSFunction(Name = "nextPreferredPlaybackDevice")]
-        public JavaScriptAudioDevice NextPreferredPlaybackDevice()
+        [JSFunction(Name = "nextPreferredDevice")]
+        public JavaScriptAudioDevice NextPreferredPlaybackDevice(int flags)
         {
-            return Context.PreferredDeviceManager != null
-                ? new JavaScriptAudioDevice(Engine, Context, Context.PreferredDeviceManager.NextPlaybackDevice())
-                : null;
+            if (Context.PreferredDeviceManager == null)
+                return null;
+
+            switch (flags)
+            {
+                case 1:
+                    return new JavaScriptAudioDevice(Engine, Context,
+                        Context.PreferredDeviceManager.NextPlaybackDevice());
+                case 2:
+                    return new JavaScriptAudioDevice(Engine, Context,
+                        Context.PreferredDeviceManager.NextRecordingDevice());
+            }
+            return null;
         }
 
         /// <summary>
         /// </summary>
+        /// <param name="flags">1 = Playback, 2 = Recording</param>
         /// <returns></returns>
-        [JSFunction(Name = "previousPreferredPlaybackDevice")]
-        public JavaScriptAudioDevice PreviousPreferredPlaybackDevice()
+        [JSFunction(Name = "previousPreferredDevice")]
+        public JavaScriptAudioDevice PreviousPreferredPlaybackDevice(int flags)
         {
-            return Context.PreferredDeviceManager != null
-                ? new JavaScriptAudioDevice(Engine, Context, Context.PreferredDeviceManager.PreviousPlaybackDevice())
-                : null;
+            if (Context.PreferredDeviceManager == null)
+                return null; 
+
+            switch (flags)
+            {
+                case 1:
+                    return new JavaScriptAudioDevice(Engine, Context,
+                        Context.PreferredDeviceManager.NextPlaybackDevice());
+                case 2:
+                    return new JavaScriptAudioDevice(Engine, Context,
+                        Context.PreferredDeviceManager.NextRecordingDevice());
+            }
+            return null;
         }
 
-        /// <summary>
-        /// </summary>
-        /// <returns></returns>
-        [JSFunction(Name = "nextPreferredRecordingDevice")]
-        public JavaScriptAudioDevice NextPreferredRecordingDevice()
-        {
-            return Context.PreferredDeviceManager != null
-                ? new JavaScriptAudioDevice(Engine, Context, Context.PreferredDeviceManager.NextRecordingDevice())
-                : null;
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <returns></returns>
-        [JSFunction(Name = "previousPreferredRecordingDevice")]
-        public ObjectInstance PreviousPreferredRecordingDevice()
-        {
-            return Context.PreferredDeviceManager != null
-                ? new JavaScriptAudioDevice(Engine, Context, Context.PreferredDeviceManager.PreviousRecordingDevice())
-                : null;
-        }
     }
 }

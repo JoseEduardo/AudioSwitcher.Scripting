@@ -1,5 +1,8 @@
-﻿using AudioSwitcher.AudioApi.System;
+﻿using System.Runtime.Remoting.Contexts;
+using AudioSwitcher.AudioApi;
+using AudioSwitcher.AudioApi.System;
 using Jurassic;
+using Moq;
 using Xunit;
 
 namespace AudioSwitcher.Scripting.Tests

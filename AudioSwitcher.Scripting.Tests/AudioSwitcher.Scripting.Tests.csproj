@@ -48,6 +48,9 @@
     <Compile Include="CoreLibraryTests.cs" />
     <Compile Include="EngineTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestAudioContext.cs" />
+    <Compile Include="TestAudioController.cs" />
+    <Compile Include="TestAudioDevice.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

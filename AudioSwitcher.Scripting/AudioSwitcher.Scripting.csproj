@@ -38,10 +38,6 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Debug\DebugAudioContext.cs" />
-    <Compile Include="Debug\DebugAudioController.cs" />
-    <Compile Include="Debug\DebugAudioDevice.cs" />
-    <Compile Include="Debug\DebugDeviceEnumerator.cs" />
     <Compile Include="IJavaScriptLibrary.cs" />
     <Compile Include="JavaScriptAudioDevice.cs" />
     <Compile Include="Libraries\AudioSwitcherLibrary.cs" />

@@ -18,8 +18,8 @@ namespace AudioSwitcher.Scripting
             return Device.Volume;
         }
 
-        [JSFunction(Name = "setMute")]
-        public bool SetMute(bool mute)
+        [JSFunction(Name = "mute")]
+        public bool Mute(bool mute)
         {
             if (mute)
                 Device.Mute();
@@ -36,7 +36,7 @@ namespace AudioSwitcher.Scripting
             return true;
         }
 
-        [JSFunction(Name = "setsetAsDefaultCommDevice")]
+        [JSFunction(Name = "setAsDefaultCommDevice")]
         public bool SetAsDefaultCommDevice()
         {
             Device.SetAsDefaultCommunications();

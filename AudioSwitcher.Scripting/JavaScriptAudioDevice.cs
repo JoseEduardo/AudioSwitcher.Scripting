@@ -17,6 +17,12 @@ namespace AudioSwitcher.Scripting
         [JSProperty(Name = "flags")]
         public int Flags { get; internal set; }
 
+        [JSProperty(Name = "isDefault")]
+        public bool IsDefault { get; internal set; }
+
+        [JSProperty(Name = "isDefaultComm")]
+        public bool IsDefaultComm { get; internal set; }
+
         AudioContext Context
         {
             get;
@@ -41,6 +47,8 @@ namespace AudioSwitcher.Scripting
             ID = device.ID.ToString();
             Name = device.ShortName;
             Flags = device.IsPlaybackDevice ? 1 : 2;
+            IsDefault = device.IsDefaultDevice;
+            IsDefaultComm = device.IsDefaultCommunicationsDevice;
 
             PopulateFields();
             PopulateFunctions();

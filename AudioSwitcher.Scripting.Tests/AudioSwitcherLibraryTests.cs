@@ -94,7 +94,7 @@ namespace AudioSwitcher.Scripting.Tests
             var engine = new ScriptEngine();
             engine.AddAudioSwitcherLibrary(GetAudioContext());
 
-            const string js = @"AudioSwitcher.getAudioDevices(1)[0].setMute(true)";
+            const string js = @"AudioSwitcher.getAudioDevices(1)[0].mute(true)";
 
             //Sets to muted
             Assert.Equal(true, engine.Evaluate<bool>(js));
@@ -108,7 +108,7 @@ namespace AudioSwitcher.Scripting.Tests
             var engine = new ScriptEngine();
             engine.AddAudioSwitcherLibrary(GetAudioContext());
 
-            const string js = @"AudioSwitcher.getAudioDevices(1)[0].setMute(false)";
+            const string js = @"AudioSwitcher.getAudioDevices(1)[0].mute(false)";
 
             //unmutes
             Assert.Equal(false, engine.Evaluate<bool>(js));

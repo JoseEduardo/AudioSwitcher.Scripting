@@ -15,7 +15,7 @@ namespace AudioSwitcher.Scripting.Debug
         {
         }
 
-        public DebugAudioContext(AudioController<DebugAudioDevice> controller, PreferredDeviceManager preferredDeviceManager)
+        public DebugAudioContext(AudioController<AudioDevice> controller, PreferredDeviceManager preferredDeviceManager)
             : base(controller, preferredDeviceManager)
         {
         }

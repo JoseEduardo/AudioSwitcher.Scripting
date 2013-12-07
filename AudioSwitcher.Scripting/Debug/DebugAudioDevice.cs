@@ -1,65 +1,63 @@
 ﻿using System;
 using AudioSwitcher.AudioApi;
 
-namespace AudioSwitcher.Scripting.Tests
+namespace AudioSwitcher.Scripting.Debug
 {
-    public sealed class TestAudioDevice : AudioDevice
+    public class DebugAudioDevice : AudioDevice
     {
-        public TestAudioDevice(Guid id, DataFlow dFlow, IDeviceEnumerator enumerator)
+        public DebugAudioDevice(IDeviceEnumerator enumerator)
             : base(enumerator)
         {
+
         }
 
-        public Guid _id;
+        public Guid id;
         public override Guid ID
         {
-            get
-            {
-                return _id;
-            }
+            get { return id; }
         }
 
+        public string description;
         public override string Description
         {
-            get { return ID.ToString(); }
+            get { return description; }
         }
 
+        public string shortName;
         public override string ShortName
         {
-            get { return ID.ToString(); }
+            get { return shortName; }
         }
 
+        public string systemName;
         public override string SystemName
         {
-            get { return ID.ToString(); }
+            get { return systemName; }
         }
 
+        public string fullName;
         public override string FullName
         {
-            get { return ID.ToString(); }
+            get { return fullName; }
         }
 
+        public DeviceState state;
         public override DeviceState State
         {
-            get { return DeviceState.Active; }
+            get { return state; }
         }
 
-        private DataFlow _dataFlow;
+        public DataFlow dataFlow;
         public override DataFlow DataFlow
         {
-            get
-            {
-                return _dataFlow;
-            }
+            get { return dataFlow; }
         }
 
-        private bool _muted = false;
+        public bool isMuted;
+
         public override bool IsMuted
         {
-            get
-            {
-                return _muted;
-            }
+            get { return isMuted; }
         }
 
         public override int Volume
@@ -70,13 +68,12 @@ namespace AudioSwitcher.Scripting.Tests
 
         public override bool Mute()
         {
-            return _muted = true;
+            return isMuted = true;
         }
 
         public override bool UnMute()
         {
-            return _muted = false;
+            return isMuted = false;
         }
-
     }
 }

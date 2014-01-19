@@ -13,7 +13,7 @@ namespace AudioSwitcher.Scripting.Libraries
         /// <param name="flags">0 Both, 1 = Playback, 2 = Recording</param>
         /// <returns></returns>
         [JSFunction(Name = "getAudioDevices")]
-        public ArrayInstance GetAudioDevices(int flags)
+        public ArrayInstance GetAudioDevices([DefaultParameterValue(0)]int flags = 0)
         {
             var devices = new List<AudioDevice>();
             switch (flags)
@@ -38,13 +38,27 @@ namespace AudioSwitcher.Scripting.Libraries
         ///     Macro function used to list all the devices
         /// </summary>
         /// <param name="name"></param>
+        /// <param name="flags"></param>
         /// <returns></returns>
         [JSFunction(Name = "getAudioDevice")]
-        public JavaScriptAudioDevice GetAudioDevice(string name)
+        public JavaScriptAudioDevice GetAudioDevice(string name, [DefaultParameterValue(0)]int flags = 0)
         {
-            AudioDevice dev = Context.Controller.GetPlaybackDevices()
-                .Concat(Context.Controller.GetRecordingDevices())
-                .FirstOrDefault(x => x.ShortName == name);
+            var devices = new List<AudioDevice>();
+            switch (flags)
+            {
+                case 0:
+                    devices.AddRange(Context.Controller.GetPlaybackDevices());
+                    devices.AddRange(Context.Controller.GetRecordingDevices());
+                    break;
+                case 1:
+                    devices.AddRange(Context.Controller.GetPlaybackDevices());
+                    break;
+                case 2:
+                    devices.AddRange(Context.Controller.GetRecordingDevices());
+                    break;
+            }
+
+            var dev = devices.FirstOrDefault(x => x.ShortName == name);
 
             return dev != null ? new JavaScriptAudioDevice(Engine, Context, dev) : null;
         }
@@ -105,7 +119,7 @@ namespace AudioSwitcher.Scripting.Libraries
         public JavaScriptAudioDevice PreviousPreferredPlaybackDevice(int flags)
         {
             if (Context.PreferredDeviceManager == null)
-                return null; 
+                return null;
 
             switch (flags)
             {

@@ -32,10 +32,29 @@ namespace AudioSwitcher.Scripting.Tests
             Assert.Equal(engine.GetGlobalValue(asLib.Name), Undefined.Value);
         }
 
-
         [Fact]
         [Trait("Type", "AudioLibrary")]
         public void AudioSwitcher_getAudioDevices()
+        {
+            var engine = new ScriptEngine();
+            engine.AddAudioSwitcherLibrary(GetAudioContext());
+
+            Assert.DoesNotThrow(() => engine.Execute("AudioSwitcher.getAudioDevices()"));
+        }
+
+        [Fact]
+        [Trait("Type", "AudioLibrary")]
+        public void AudioSwitcher_getAudioDevices_All()
+        {
+            var engine = new ScriptEngine();
+            engine.AddAudioSwitcherLibrary(GetAudioContext());
+
+            Assert.DoesNotThrow(() => engine.Execute("AudioSwitcher.getAudioDevices(0)"));
+        }
+
+        [Fact]
+        [Trait("Type", "AudioLibrary")]
+        public void AudioSwitcher_getAudioDevices_Playback()
         {
             var engine = new ScriptEngine();
             engine.AddAudioSwitcherLibrary(GetAudioContext());
@@ -45,17 +64,67 @@ namespace AudioSwitcher.Scripting.Tests
 
         [Fact]
         [Trait("Type", "AudioLibrary")]
+        public void AudioSwitcher_getAudioDevices_Recording()
+        {
+            var engine = new ScriptEngine();
+            engine.AddAudioSwitcherLibrary(GetAudioContext());
+
+            Assert.DoesNotThrow(() => engine.Execute("AudioSwitcher.getAudioDevices(2)"));
+        }
+
+        [Fact]
+        [Trait("Type", "AudioLibrary")]
         public void AudioSwitcher_getAudioDeviceByName()
         {
             var engine = new ScriptEngine();
             engine.AddAudioSwitcherLibrary(GetAudioContext());
 
-            const string js = @"AudioSwitcher.getAudioDevice(AudioSwitcher.getAudioDevices(1)[0].name);";
+            const string js = @"AudioSwitcher.getAudioDevice(AudioSwitcher.getAudioDevices()[0].name);";
 
             Assert.DoesNotThrow(() => engine.Execute(js));
-            var audioDevice = engine.Evaluate<JavaScriptAudioDevice>(js);
-            Assert.NotEqual(null, audioDevice);
-            Assert.IsType<JavaScriptAudioDevice>(audioDevice);
+
+            var audioDevice = engine.Evaluate<JavaScriptAudioDevice>("AudioSwitcher.getAudioDevices()[0]");
+            var resolvedAudioDevice = engine.Evaluate<JavaScriptAudioDevice>(js);
+
+            Assert.NotEqual(null, resolvedAudioDevice);
+            Assert.Equal(audioDevice.ID, resolvedAudioDevice.ID);
+            Assert.IsType<JavaScriptAudioDevice>(resolvedAudioDevice);
+        }
+
+        [Fact]
+        [Trait("Type", "AudioLibrary")]
+        public void AudioSwitcher_getAudioDeviceByName_Playback_Flags()
+        {
+            var engine = new ScriptEngine();
+            engine.AddAudioSwitcherLibrary(GetAudioContext());
+
+            const string js = @"AudioSwitcher.getAudioDevice(AudioSwitcher.getAudioDevices(1)[0].name, 1);";
+
+            Assert.DoesNotThrow(() => engine.Execute(js));
+            var audioDevice = engine.Evaluate<JavaScriptAudioDevice>("AudioSwitcher.getAudioDevices(1)[0]");
+            var resolvedAudioDevice = engine.Evaluate<JavaScriptAudioDevice>(js);
+
+            Assert.NotEqual(null, resolvedAudioDevice);
+            Assert.Equal(audioDevice.ID, resolvedAudioDevice.ID);
+            Assert.IsType<JavaScriptAudioDevice>(resolvedAudioDevice);
+        }
+
+        [Fact]
+        [Trait("Type", "AudioLibrary")]
+        public void AudioSwitcher_getAudioDeviceByName_Recording_Flags()
+        {
+            var engine = new ScriptEngine();
+            engine.AddAudioSwitcherLibrary(GetAudioContext());
+
+            const string js = @"AudioSwitcher.getAudioDevice(AudioSwitcher.getAudioDevices(2)[0].name, 2);";
+
+            Assert.DoesNotThrow(() => engine.Execute(js));
+            var audioDevice = engine.Evaluate<JavaScriptAudioDevice>("AudioSwitcher.getAudioDevices(2)[0]");
+            var resolvedAudioDevice = engine.Evaluate<JavaScriptAudioDevice>(js);
+            
+            Assert.NotEqual(null, resolvedAudioDevice);
+            Assert.Equal(audioDevice.ID, resolvedAudioDevice.ID);
+            Assert.IsType<JavaScriptAudioDevice>(resolvedAudioDevice);
         }
 
         [Fact]
@@ -65,7 +134,7 @@ namespace AudioSwitcher.Scripting.Tests
             var engine = new ScriptEngine();
             engine.AddAudioSwitcherLibrary(GetAudioContext());
 
-            const string js = @"AudioSwitcher.getAudioDevices(1)[0];";
+            const string js = @"AudioSwitcher.getAudioDevices()[0];";
 
             Assert.DoesNotThrow(() => engine.Execute(js));
             Assert.NotEqual(null, engine.Evaluate<JavaScriptAudioDevice>(js));
@@ -79,7 +148,7 @@ namespace AudioSwitcher.Scripting.Tests
             var engine = new ScriptEngine();
             engine.AddAudioSwitcherLibrary(GetAudioContext());
 
-            const string js = @"AudioSwitcher.getAudioDevices(1)[0].toggleMute()";
+            const string js = @"AudioSwitcher.getAudioDevices()[0].toggleMute()";
 
             //Toggles the mute and tests non equality of state
             var isMuted = engine.Evaluate<bool>(js);
@@ -94,7 +163,7 @@ namespace AudioSwitcher.Scripting.Tests
             var engine = new ScriptEngine();
             engine.AddAudioSwitcherLibrary(GetAudioContext());
 
-            const string js = @"AudioSwitcher.getAudioDevices(1)[0].mute(true)";
+            const string js = @"AudioSwitcher.getAudioDevices()[0].mute(true)";
 
             //Sets to muted
             Assert.Equal(true, engine.Evaluate<bool>(js));
@@ -108,7 +177,7 @@ namespace AudioSwitcher.Scripting.Tests
             var engine = new ScriptEngine();
             engine.AddAudioSwitcherLibrary(GetAudioContext());
 
-            const string js = @"AudioSwitcher.getAudioDevices(1)[0].mute(false)";
+            const string js = @"AudioSwitcher.getAudioDevices()[0].mute(false)";
 
             //unmutes
             Assert.Equal(false, engine.Evaluate<bool>(js));
@@ -122,7 +191,7 @@ namespace AudioSwitcher.Scripting.Tests
             var engine = new ScriptEngine();
             engine.AddAudioSwitcherLibrary(GetAudioContext());
 
-            const string js = @"AudioSwitcher.getAudioDevices(1)[0].volume()";
+            const string js = @"AudioSwitcher.getAudioDevices()[0].volume()";
 
             //don't care what it retuns, just that it exists
             Assert.DoesNotThrow(() => engine.Execute(js));
@@ -136,10 +205,10 @@ namespace AudioSwitcher.Scripting.Tests
             var engine = new ScriptEngine();
             engine.AddAudioSwitcherLibrary(GetAudioContext());
 
-            const string setTo10 = @"AudioSwitcher.getAudioDevices(1)[0].volume(10)";
-            const string getVolume = @"AudioSwitcher.getAudioDevices(1)[0].volume()";
+            const string setTo10 = @"AudioSwitcher.getAudioDevices()[0].volume(10)";
+            const string getVolume = @"AudioSwitcher.getAudioDevices()[0].volume()";
             var orignalVol = engine.Evaluate<int>(getVolume);
-            string setToOriginal = @"AudioSwitcher.getAudioDevices(1)[0].volume(" + orignalVol + ")";
+            string setToOriginal = @"AudioSwitcher.getAudioDevices()[0].volume(" + orignalVol + ")";
 
             //unmutes
             Assert.Equal(10, engine.Evaluate<int>(setTo10));
@@ -155,7 +224,7 @@ namespace AudioSwitcher.Scripting.Tests
             var engine = new ScriptEngine();
             engine.AddAudioSwitcherLibrary(GetAudioContext());
 
-            const string js = @"AudioSwitcher.getAudioDevices(1)[0].name";
+            const string js = @"AudioSwitcher.getAudioDevices()[0].name";
 
             //unmutes
             Assert.DoesNotThrow(() => engine.Execute(js));
@@ -169,7 +238,7 @@ namespace AudioSwitcher.Scripting.Tests
             var engine = new ScriptEngine();
             engine.AddAudioSwitcherLibrary(GetAudioContext());
 
-            const string js = @"AudioSwitcher.getAudioDevices(1)[0].id";
+            const string js = @"AudioSwitcher.getAudioDevices()[0].id";
 
             //unmutes
             Assert.DoesNotThrow(() => engine.Execute(js));
@@ -183,7 +252,7 @@ namespace AudioSwitcher.Scripting.Tests
             var engine = new ScriptEngine();
             engine.AddAudioSwitcherLibrary(GetAudioContext());
 
-            const string js = @"AudioSwitcher.getAudioDevices(1)[0].flags";
+            const string js = @"AudioSwitcher.getAudioDevices()[0].flags";
 
             //unmutes
             Assert.DoesNotThrow(() => engine.Execute(js));

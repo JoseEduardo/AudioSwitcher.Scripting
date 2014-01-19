@@ -39,6 +39,11 @@ namespace AudioSwitcher.Scripting.Tests
             get { return ID.ToString(); }
         }
 
+        public override string IconPath
+        {
+            get { return ID.ToString(); }
+        }
+
         public override DeviceState State
         {
             get { return DeviceState.Active; }

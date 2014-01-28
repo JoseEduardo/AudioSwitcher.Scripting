@@ -16,6 +16,7 @@ namespace AudioSwitcher.Scripting.Libraries
         public ArrayInstance GetAudioDevices([DefaultParameterValue(0)]int flags = 0)
         {
             var devices = new List<AudioDevice>();
+
             switch (flags)
             {
                 case 0:
@@ -44,6 +45,7 @@ namespace AudioSwitcher.Scripting.Libraries
         public JavaScriptAudioDevice GetAudioDevice(string name, [DefaultParameterValue(0)]int flags = 0)
         {
             var devices = new List<AudioDevice>();
+
             switch (flags)
             {
                 case 0:
@@ -72,6 +74,7 @@ namespace AudioSwitcher.Scripting.Libraries
         public ArrayInstance GetPreferredDevices(int flags)
         {
             var devices = new List<AudioDevice>();
+
             switch (flags)
             {
                 case 0:
@@ -108,6 +111,7 @@ namespace AudioSwitcher.Scripting.Libraries
                     return new JavaScriptAudioDevice(Engine, Context,
                         Context.PreferredDeviceManager.NextRecordingDevice());
             }
+
             return null;
         }
 
@@ -130,6 +134,7 @@ namespace AudioSwitcher.Scripting.Libraries
                     return new JavaScriptAudioDevice(Engine, Context,
                         Context.PreferredDeviceManager.NextRecordingDevice());
             }
+
             return null;
         }
 

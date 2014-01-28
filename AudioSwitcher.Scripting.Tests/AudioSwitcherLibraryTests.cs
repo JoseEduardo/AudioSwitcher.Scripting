@@ -1,4 +1,5 @@
 ﻿using AudioSwitcher.AudioApi;
+using AudioSwitcher.AudioApi.Isolated;
 using AudioSwitcher.AudioApi.System;
 using Jurassic;
 using Xunit;
@@ -10,7 +11,7 @@ namespace AudioSwitcher.Scripting.Tests
 
         public static AudioContext GetAudioContext()
         {
-            return new SystemAudioContext();
+            return new IsolatedAudioContext();
         }
 
         [Fact]

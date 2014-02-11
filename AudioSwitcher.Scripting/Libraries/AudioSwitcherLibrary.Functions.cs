@@ -97,7 +97,7 @@ namespace AudioSwitcher.Scripting.Libraries
         /// <param name="flags">1 = Playback, 2 = Recording</param>
         /// <returns></returns>
         [JSFunction(Name = "nextPreferredDevice")]
-        public JavaScriptAudioDevice NextPreferredPlaybackDevice(int flags)
+        public JavaScriptAudioDevice NextPreferredDevice(int flags)
         {
             if (Context.PreferredDeviceManager == null)
                 return null;
